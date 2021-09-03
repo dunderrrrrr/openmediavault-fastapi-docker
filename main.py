@@ -142,3 +142,21 @@ def temps():
         "response": temp_data
     }
     return (return_data)
+
+@app.get("/detailed_storage", tags=["storage"])
+def volumes():
+    detailed_storage = api.storage.detailed_storage
+    return_data = {
+        "status_code": 200,
+        "response": detailed_storage
+    }
+    return(return_data)
+
+@app.get("/detailed_host", tags=["storage"])
+def volumes():
+    detailed_host = api.utilisation.detailed_host
+    return_data = {
+        "status_code": 200,
+        "response": detailed_host
+    }
+    return(return_data)

@@ -15,6 +15,8 @@ ___
 * Raids - devices, status
 * Fans - temperature
 * Temps - temperature
+
+* Detailed:
 ___
 
 ### Installation
@@ -97,5 +99,13 @@ ___
 {
    "path":"/temps",
    "name":"temps"
+},
+{
+   "path":"/detailed_storage",
+   "name":"volumes"
+},
+{
+   "path":"/detailed_host",
+   "name":"volumes"
 }
 ```

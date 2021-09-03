@@ -71,6 +71,12 @@ class OmvUtilization(object):
                 self._data["pkgUpdatesAvailable"] = raw_input['pkgUpdatesAvailable']
 
     @property
+    def detailed_host(self):
+        """Returns all host data of openmediavault"""
+        if self._data is not None:
+            return (self._data)
+
+    @property
     def hostname(self):
         """Hostname of openmediavault"""
         if self._data is not None:
@@ -310,6 +316,12 @@ class OmvStorage(object):
         """Allows updating Utilisation data with raw_input data"""
         if raw_input is not None:
             self._data = raw_input
+
+    @property
+    def detailed_storage(self):
+        """Returns all data in storage"""
+        if self._data is not None:
+            return(self._data)
 
     @property
     def volumes(self):
