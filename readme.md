@@ -16,14 +16,16 @@ ___
 * Fans - temperature
 * Temps - temperature
 
-* Detailed:
+* Detailed data:
+	* Detailed storage
+	* Detailed host
 ___
 
 ### Installation
 
 First, make sure you edit and copy `settings.sample.py` to fit your needs.  
 ```
-$ cp settings.samply.py settings.py
+$ cp settings.sample.py settings.py
 $ nano settings.py
 ```
 
