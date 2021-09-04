@@ -42,7 +42,6 @@ class FormatHelper(object):
 
         return round(var_tb, 1)
 
-
 class OmvUtilization(object):
     """Class containing Utilisation data"""
     def __init__(self, raw_input):
@@ -54,7 +53,6 @@ class OmvUtilization(object):
         if raw_input is not None:
             self._data = {}
             for val in raw_input:
-                print(raw_input)
                 self._data["hostname"] = raw_input['hostname']
                 self._data["version"] = raw_input['version']
                 self._data["processor"] = raw_input['cpuModelName']
@@ -195,116 +193,6 @@ class OmvUtilization(object):
         """Get mem usage"""
         if self._data is not None:
             return self._data["memUsed"]
-
-#    # @property
-#    def memory_real_usage(self):
-#        """Real Memory Usage from openmediavault"""
-#        mem_usage = self._get_mem_usage()
-#        return str()
-#        if self._data is not None:
-#            return str(self._data["memory"]["real_usage"])
-#
-#    def memory_size(self, human_readable=True):
-#        """Total Memory Size of openmediavault"""
-#        if self._data is not None:
-#            # Memory is actually returned in KB's
-#            # so multiply before converting
-#            return_data = int(self._data["memory"]["memory_size"]) * 1024
-#            if human_readable:
-#                return FormatHelper.bytes_to_readable(
-#                    return_data)
-#            else:
-#                return return_data
-
-#     def memory_available_swap(self, human_readable=True):
-#         """Total Available Memory Swap"""
-#         if self._data is not None:
-#             # Memory is actually returned in KB's so
-#             # multiply before converting
-#             return_data = int(self._data["memory"]["avail_swap"]) * 1024
-#             if human_readable:
-#                 return FormatHelper.bytes_to_readable(
-#                     return_data)
-#             else:
-#                 return return_data
-
-#     def memory_cached(self, human_readable=True):
-#         """Total Cached Memory"""
-#         if self._data is not None:
-#             # Memory is actually returned in KB's so
-#             # multiply before converting
-#             return_data = int(self._data["memory"]["cached"]) * 1024
-#             if human_readable:
-#                 return FormatHelper.bytes_to_readable(
-#                     return_data)
-#             else:
-#                 return return_data
-
-#     def memory_available_real(self, human_readable=True):
-#         """Real available memory"""
-#         if self._data is not None:
-#             # Memory is actually returned in KB's so
-#             # multiply before converting
-#             return_data = int(self._data["memory"]["avail_real"]) * 1024
-#             if human_readable:
-#                 return FormatHelper.bytes_to_readable(
-#                     return_data)
-#             else:
-#                 return return_data
-
-#     def memory_total_real(self, human_readable=True):
-#         """Total available real memory"""
-#         if self._data is not None:
-#             # Memory is actually returned in KB's so
-#             # multiply before converting
-#             return_data = int(self._data["memory"]["total_real"]) * 1024
-#             if human_readable:
-#                 return FormatHelper.bytes_to_readable(
-#                     return_data)
-#             else:
-#                 return return_data
-
-#     def memory_total_swap(self, human_readable=True):
-#         """Total Swap Memory"""
-#         if self._data is not None:
-#             # Memory is actually returned in KB's so
-#             # multiply before converting
-#             return_data = int(self._data["memory"]["total_swap"]) * 1024
-#             if human_readable:
-#                 return FormatHelper.bytes_to_readable(
-#                     return_data)
-#             else:
-#                 return return_data
-
-#     def _get_network(self, network_id):
-#         """Function to get specific network (eth0, total, etc)"""
-#         if self._data is not None:
-#             for network in self._data["network"]:
-#                 if network["device"] == network_id:
-#                     return network
-
-#     def network_up(self, human_readable=True):
-#         """Total upload speed being used"""
-#         network = self._get_network("total")
-#         if network is not None:
-#             return_data = int(network["tx"])
-#             if human_readable:
-#                 return FormatHelper.bytes_to_readable(
-#                     return_data)
-#             else:
-#                 return return_data
-
-#     def network_down(self, human_readable=True):
-#         """Total download speed being used"""
-#         network = self._get_network("total")
-#         if network is not None:
-#             return_data = int(network["rx"])
-#             if human_readable:
-#                 return FormatHelper.bytes_to_readable(
-#                     return_data)
-#             else:
-#                 return return_data
-
 
 class OmvStorage(object):
     """Class containing Storage data"""
@@ -516,7 +404,6 @@ class OmvStorage(object):
                 return int(disk["temperature"])
         return None
 
-
 class OmvHealth(object):
     """Class containing health data"""
     def __init__(self, raw_input):
@@ -574,6 +461,19 @@ class OmvHealth(object):
         if fan is not None:
             return fan["value"]
 
+class OmvServices(object):
+    def __init__(self, raw_input):
+        self._data = None
+        self.update(raw_input)
+
+    def update(self, raw_input):
+        if raw_input is not None:
+            self._data = raw_input
+
+    @property
+    def service(self):
+        """Returns all available crons"""
+        return(self._data)
 
 class Openmediavault():
     # pylint: disable=too-many-arguments,too-many-instance-attributes
@@ -590,6 +490,7 @@ class Openmediavault():
         self._utilisation = None
         self._storage = None
         self._health = None
+        self._services = None
         self._debugmode = debugmode
         self._use_https = use_https
 
@@ -691,7 +592,6 @@ class Openmediavault():
         # Prepare Request
         self._debuglog(
             "Requesting URL: '" + self.api_url + "', msg: '" + data + "'")
-
         # Execute Request
         try:
             resp = self._session.post(
@@ -757,6 +657,11 @@ class Openmediavault():
             packet = self._construct_packet("Health", "getHealthInfo")
             self._health.update(self._post_url(packet)["response"])
 
+        if self._service is not None:
+            packet = self._construct_packet("service", "getStatus")
+            self._service.update(self._post_url(packet)["response"])
+
+
     @property
     def utilisation(self):
         """Getter for various Utilisation variables"""
@@ -797,3 +702,11 @@ class Openmediavault():
             packet = self._construct_packet("Health", "getHealthInfo")
             self._health = OmvHealth(self._post_url(packet)["response"])
         return self._health
+
+    @property
+    def services(self):
+        """Getter for various services variables"""
+        if self._services is None:
+            packet = self._construct_packet("services", "getStatus")
+            self._services = OmvServices(self._post_url(packet)["response"])
+        return self._services

@@ -15,6 +15,7 @@ ___
 * Raids - devices, status
 * Fans - temperature
 * Temps - temperature
+* Services - all enabled services
 
 * Detailed data:
 	* Detailed storage
@@ -101,6 +102,10 @@ ___
 {
    "path":"/temps",
    "name":"temps"
+},
+{
+   "path":"/services",
+   "name":"services"
 },
 {
    "path":"/detailed_storage",

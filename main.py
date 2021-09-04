@@ -6,7 +6,7 @@ import requests, json
 tags_metadata = [
     {
         "name": "host",
-        "description": "OpenMediaVault host data.",
+        "description": "OpenMediaVault host data and services.",
     },
     {
         "name": "storage",
@@ -158,5 +158,14 @@ def volumes():
     return_data = {
         "status_code": 200,
         "response": detailed_host
+    }
+    return(return_data)
+
+@app.get("/services", tags=["host"])
+def services():
+    services_data = api.services.service
+    return_data = {
+        "status_code": 200,
+        "response": services_data
     }
     return(return_data)
