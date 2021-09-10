@@ -24,12 +24,12 @@ ___
 
 ### Installation
 
-First, make sure you edit and copy `settings.sample.py` to fit your needs.  
+First clone the repo.
 ```
-$ cp settings.sample.py settings.py
-$ nano settings.py
+$ git clone git@github.com:dunderrrrrr/openmediavault-fastapi-docker.git
 ```
 
+Make sure to change the environment variables in `docker-compose.yml` before you start the container.  
 To start the container with docker-compose:
 ```
 $ docker-compose up -d
