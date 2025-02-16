@@ -12,7 +12,7 @@ PyYAML==5.4.1
 requests==2.26.0
 starlette==0.14.2
 typing-extensions==3.10.0.2
-urllib3==1.26.6
+urllib3==1.26.19
 uvicorn==0.15.0
 uvloop==0.16.0
 watchgod==0.7
